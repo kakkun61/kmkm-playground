@@ -1,0 +1,24 @@
+(module
+  main
+  (list
+    kmkm.prim
+    kmkm.proc
+    kmkm.unit)
+  (list
+    (bind-value-foreign
+      printInt
+      (list
+        (c-value
+          "#include<stdio.h>"
+          (list "a")
+          """
+            printf("%d\n", a);
+            return kmkm_unit_unit;
+          """))
+      (function kmkm.prim.int (procedure kmkm.unit.unit)))
+    (bind-value
+      main
+      (procedure
+        (list
+          (call (apply main.printInt 1))
+          (call (apply kmkm.proc.pureInt 0)))))))
